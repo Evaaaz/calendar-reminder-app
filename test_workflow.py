@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+"""
+Test script for Calendar Reminder App
+
+This script tests the end-to-end workflow with sample data.
+"""
+
+import os
+import json
+from src.sheets_reader import GoogleSheetsReader
+from src.template_parser import TemplateParser
+from src.calendar_creator import CalendarEventCreator
+
+def create_sample_data():
+    """Create sample data for testing."""
+    sample_data = {
+        'important_dates': [
+            {
+                'event_name': "John's Birthday",
+                'date': '2025-06-15',
+                'category': 'birthday_with_card',
+                'person': 'John Smith',
+                'notes': 'Likes chocolate cake',
+                'recurrence': 'yearly'
+            },
+            {
+                'event_name': "Anniversary",
+                'date': '2025-07-22',
+                'category': 'anniversary',
+                'person': 'Sarah',
+                'notes': 'Our special day',
+                'recurrence': 'yearly'
+            },
+            {
+                'event_name': "Dentist Appointment",
+                'date': '2025-08-10',
+                'category': 'appointment',
+                'person': 'Dr. Johnson',
+                'notes': 'Regular checkup',
+                'recurrence': 'none'
+            }
+        ],
+        'templates': [
+            {
+                'template_name': 'birthday_with_card',
+                'description': 'Birthday with card reminder sequence',
+                'reminders': [
+                    {
+                        'days': -14,
+                        'title': 'Buy birthday card for {Person}',
+                        'description': '{Person}\'s birthday is coming up on {Date}. Time to buy a card!'
+                    },
+                    {
+                        'days': -10,
+                        'title': 'Buy birthday card for {Person}',
+                        'description': 'Last reminder to buy a card for {Person}\'s birthday on {Date}'
+                    },
+                    {
+                        'days': -7,
+                        'title': 'Send birthday card to {Person}',
+                        'description': '{Person}\'s birthday is in a week on {Date}. Send the card now!'
+                    },
+                    {
+                        'days': 0,
+                        'title': 'Send birthday message to {Person}',
+                        'description': 'Today is {Person}\'s birthday! Send them a message!'
+                    },
+                    {
+                        'days': 0,
+                        'title': 'Call {Person} for birthday',
+                        'description': 'Don\'t forget to call {Person} today for their birthday!'
+                    }
+                ]
+            },
+            {
+                'template_name': 'anniversary',
+                'description': 'Anniversary reminder sequence',
+                'reminders': [
+                    {
+                        'days': -30,
+                        'title': 'Plan for anniversary with {Person}',
+                        'description': 'Anniversary coming up in a month on {Date}. Start planning!'
+                    },
+                    {
+                        'days': -14,
+                        'title': 'Buy anniversary gift for {Person}',
+                        'description': 'Anniversary with {Person} is in two weeks on {Date}. Time to buy a gift!'
+                    },
+                    {
+                        'days': -1,
+                        'title': 'Anniversary with {Person} tomorrow',
+                        'description': 'Your anniversary with {Person} is tomorrow. Final preparations!'
+                    },
+                    {
+                        'days': 0,
+                        'title': 'Anniversary with {Person} today',
+                        'description': 'Happy Anniversary with {Person} today!'
+                    }
+                ]
+            },
+            {
+                'template_name': 'appointment',
+                'description': 'Appointment reminder sequence',
+                'reminders': [
+                    {
+                        'days': -7,
+                        'title': '{Event Name} in one week',
+                        'description': 'Your {Event Name} with {Person} is in one week on {Date}. {Notes}'
+                    },
+                    {
+                        'days': -1,
+                        'title': '{Event Name} tomorrow',
+                        'description': 'Reminder: Your {Event Name} with {Person} is tomorrow. {Notes}'
+                    },
+                    {
+                        'days': 0,
+                        'title': '{Event Name} today',
+                        'description': 'Your {Event Name} with {Person} is today. {Notes}'
+                    }
+                ]
+            }
+        ]
+    }
+    
+    # Save sample data to a file for reference
+    with open('sample_data.json', 'w') as f:
+        json.dump(sample_data, f, indent=2)
+    
+    return sample_data
+
+def test_workflow():
+    """Test the end-to-end workflow with sample data."""
+    print("Testing Calendar Reminder App workflow with sample data...")
+    
+    # Step 1: Create sample data
+    print("\nStep 1: Creating sample data...")
+    data = create_sample_data()
+    print(f"  - Created sample data with {len(data['important_dates'])} important dates and {len(data['templates'])} templates")
+    
+    # Step 2: Parse templates and generate events
+    print("\nStep 2: Parsing templates and generating events...")
+    parser = TemplateParser(data)
+    events = parser.generate_events()
+    print(f"  - Generated {len(events)} calendar events")
+    
+    # Print a summary of the events
+    print("\nEvent summary:")
+    for i, event in enumerate(events):
+        print(f"  {i+1}. {event['start']['date']}: {event['summary']}")
+        print(f"     {event['description']}")
+    
+    print("\nWorkflow test completed successfully!")
+    print("Note: No actual calendar events were created. This was just a test of the parsing logic.")
+    print("To create actual events, run the main.py script with your Google Sheet ID.")
+
+if __name__ == '__main__':
+    test_workflow()
