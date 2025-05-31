@@ -44,11 +44,6 @@ python main.py <spreadsheet_id>
 
 Replace `<spreadsheet_id>` with the ID of your Google Sheet. The ID is the part of the URL after `/d/` and before the next `/`.
 
-Example:
-```
-python main.py 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
-```
-
 ### List Available Calendars
 
 To see a list of available calendars:
@@ -96,6 +91,16 @@ python test_workflow.py
 ```
 
 This will generate sample data and show how the events would be created.
+
+For a more comprehensive test that includes Google API interactions, run:
+
+```
+python main.py 1dNKMNrfDn9mza0Lq1V_h3Ze32XkOIDWN448tM6iF6hg
+```
+
+(See the corresponding spreadsheet [here](https://docs.google.com/spreadsheets/d/1dNKMNrfDn9mza0Lq1V_h3Ze32XkOIDWN448tM6iF6hg).) The example will create calendar events like below:
+
+![](assets/example_calendar.png)
 
 ## License
 

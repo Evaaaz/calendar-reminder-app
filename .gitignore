@@ -1,6 +1,7 @@
 # Credentials and tokens
 credentials.json
 token.json
+token_calendar.json
 
 # Python
 __pycache__/
