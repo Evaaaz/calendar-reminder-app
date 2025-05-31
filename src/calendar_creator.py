@@ -16,12 +16,13 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 # Define the scopes needed for Google Calendar API
-SCOPES = ['https://www.googleapis.com/auth/calendar.events']
+SCOPES = ['https://www.googleapis.com/auth/calendar.events', 
+          'https://www.googleapis.com/auth/calendar.readonly']
 
 class CalendarEventCreator:
     """Class to handle creating events in Google Calendar."""
     
-    def __init__(self, credentials_file: str = 'credentials.json', token_file: str = 'token.json'):
+    def __init__(self, credentials_file: str = 'credentials.json', token_file: str = 'token_calendar.json'):
         """
         Initialize the CalendarEventCreator.
         

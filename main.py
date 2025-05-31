@@ -117,7 +117,7 @@ def main():
             print("Use the command without --dry-run to create the actual events.")
         else:
             print(f"\nStep 3: Creating events in Google Calendar (calendar ID: {args.calendar_id})...")
-            creator = CalendarEventCreator(args.credentials, args.token)
+            creator = CalendarEventCreator(args.credentials)
             created_events = creator.create_events(events, args.calendar_id)
             
             print(f"  - Successfully created {len(created_events)} events in Google Calendar")
